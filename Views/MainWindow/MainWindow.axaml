@@ -2,6 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SportShop.ViewModels"
+        x:DataType="vm:MainWindowViewModel"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SportShop.MainWindow"
         Title="SportShop"
@@ -43,18 +45,18 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="GoActive" Foreground="Black" FontSize="40" FontWeight="Bold" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Text="The best place to buy sports equipment" Foreground="Black" FontSize="20" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Border Background="#FFF" CornerRadius="10" Padding="20" Grid.Row="2" Margin="0,20,0,0" BorderBrush="Black" BorderThickness="1">
+        <Image Source="avares://SportShop/Assets/logo.jpg" Width="100" Height="100" Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBlock Text="GoActive" Foreground="Black" FontSize="40" FontWeight="Bold" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Text="The best place to buy sports equipment" Foreground="Black" FontSize="20" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Border Background="#FFF" CornerRadius="10" Padding="20" Grid.Row="3" Margin="0,20,0,0" BorderBrush="Black" BorderThickness="1">
             <StackPanel>
                 <TextBlock Text="Username:" FontSize="16" Margin="0,0,0,10"/>
                 <TextBox Classes="input" Watermark="Enter username" />
                 <TextBlock Text="Password:" FontSize="16" Margin="0,20,0,10"/>
                 <TextBox Classes="input" Watermark="Enter password" PasswordChar="*"/>
 
-                <Button Classes="button" Content="Login" Margin="0,20,0,0" />
+                <Button Classes="button" Content="Login" Margin="0,20,0,0" Click="OnButtonClick"/>
             </StackPanel>
         </Border>
     </Grid>
