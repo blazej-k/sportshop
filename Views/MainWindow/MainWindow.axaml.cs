@@ -15,6 +15,7 @@ public partial class MainWindow : Window
 
     private void OnButtonClick(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        Console.WriteLine("Button clicked");
+        var viewModel = DataContext as MainWindowViewModel;
+        viewModel.OnLogin();
     }
 }

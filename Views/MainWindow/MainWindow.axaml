@@ -52,10 +52,10 @@
         <Border Background="#FFF" CornerRadius="10" Padding="20" Grid.Row="3" Margin="0,20,0,0" BorderBrush="Black" BorderThickness="1">
             <StackPanel>
                 <TextBlock Text="Username:" FontSize="16" Margin="0,0,0,10"/>
-                <TextBox Classes="input" Watermark="Enter username" />
+                <TextBox Text="{Binding Username}" Classes="input" Watermark="Enter username" />
                 <TextBlock Text="Password:" FontSize="16" Margin="0,20,0,10"/>
-                <TextBox Classes="input" Watermark="Enter password" PasswordChar="*"/>
-
+                <TextBox Text="{Binding Password}" Classes="input" Watermark="Enter password" PasswordChar="*"/>
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" Margin="0,20,0,0"/>
                 <Button Classes="button" Content="Login" Margin="0,20,0,0" Click="OnButtonClick"/>
             </StackPanel>
         </Border>

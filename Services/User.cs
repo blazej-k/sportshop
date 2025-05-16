@@ -8,8 +8,8 @@ namespace SportShop.Services
   {
     private List<User> mockUsers = new List<User>
         {
-            new User { Id = "1", Login = "admin", Password = "admin", Type = UserType.Admin },
-            new User { Id = "2", Login = "customer", Password = "customer", Type = UserType.Customer },
+            new User { Id = "1", Login = "admin", Password = "admin", Type = UserType.ADMIN },
+            new User { Id = "2", Login = "customer", Password = "customer", Type = UserType.CUSTOMER },
         };
 
     public bool CheckIfUserExists(string login, string password)

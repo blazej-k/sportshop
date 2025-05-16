@@ -2,8 +2,8 @@ namespace SportShop.Models
 {
     public enum UserType
     {
-        Customer,
-        Admin
+        CUSTOMER,
+        ADMIN
     }
 
     public class User
