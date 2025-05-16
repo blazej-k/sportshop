@@ -1,14 +1,16 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using SportShop.Models;
 using SportShop.ViewModels;
 
 namespace SportShop.Views
 {
 	public partial class LoginView : UserControl
 	{
-		public LoginView()
+		public LoginView(Action<User> redirectToDashboard)
 		{
-			DataContext = new LoginViewModel();
+			DataContext = new LoginViewModel(redirectToDashboard);
 			InitializeComponent();
 		}
 

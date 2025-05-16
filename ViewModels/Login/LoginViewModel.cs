@@ -1,5 +1,7 @@
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using SportShop.Models;
 using SportShop.Services;
 
 namespace SportShop.ViewModels
@@ -9,6 +11,12 @@ namespace SportShop.ViewModels
         private string _username = "";
         private string _password = "";
         private string _errorMessage = "";
+        private readonly Action<User> _redirectToDashboard;
+
+        public LoginViewModel(Action<User> redirectToDashboard)
+        {
+            _redirectToDashboard = redirectToDashboard;
+        }
 
         public string ErrorMessage
         {
@@ -62,13 +70,15 @@ namespace SportShop.ViewModels
                 return;
             }
 
-            bool isExists = CheckIfUserExists(_username, _password);
+            User? user = CheckIfUserExists(_username, _password);
 
-            if (!isExists)
+            if (user is null)
             {
                 ErrorMessage = "Username or password are incorrect";
                 return;
             }
+
+            _redirectToDashboard.Invoke(user);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

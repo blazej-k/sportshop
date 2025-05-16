@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using SportShop.Models;
 using SportShop.Services;
 using SportShop.Views;
 
@@ -11,7 +12,7 @@ namespace SportShop.ViewModels
 
         public MainWindowViewModel()
         {
-            CurrentView = new LoginView();
+            CurrentView = new LoginView(redirectToDashboard: RedirectToDashboard);
         }
 
         public object CurrentView
@@ -22,6 +23,16 @@ namespace SportShop.ViewModels
                 _currentView = value;
                 OnPropertyChanged();
             }
+        }
+
+        public void RedirectToDashboard(User currentUser)
+        {
+            CurrentView = new DashboardView(RedirectToLogin, currentUser);
+        }
+
+        public void RedirectToLogin()
+        {
+            CurrentView = new LoginView(RedirectToDashboard);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

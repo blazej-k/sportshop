@@ -12,9 +12,9 @@ namespace SportShop.Services
             new User { Id = "2", Login = "customer", Password = "customer", Type = UserType.CUSTOMER },
         };
 
-    public bool CheckIfUserExists(string login, string password)
+    public User? CheckIfUserExists(string login, string password)
     {
-      return mockUsers.Exists(user => user.Login == login && user.Password == password);
+      return mockUsers.Find(user => user.Login == login && user.Password == password);
     }
   }
 }
