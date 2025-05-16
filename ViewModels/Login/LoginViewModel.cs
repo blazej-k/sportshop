@@ -4,7 +4,7 @@ using SportShop.Services;
 
 namespace SportShop.ViewModels
 {
-    public class MainWindowViewModel : UserService, INotifyPropertyChanged
+    public class LoginViewModel : UserService, INotifyPropertyChanged
     {
         private string _username = "";
         private string _password = "";
@@ -67,6 +67,7 @@ namespace SportShop.ViewModels
             if (!isExists)
             {
                 ErrorMessage = "Username or password are incorrect";
+                return;
             }
         }
 

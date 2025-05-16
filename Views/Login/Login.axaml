@@ -1,0 +1,58 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:SportShop.ViewModels"
+             x:DataType="vm:LoginViewModel"
+             x:Class="SportShop.Views.LoginView">
+    <UserControl.Styles>
+       <Style Selector="TextBox.input">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Style Selector="^:focus">
+                <Setter Property="Foreground" Value="Black"/>
+                <Style Selector="^ /template/ Border#PART_BorderElement">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Style>
+                <Style Selector="^ /template/ TextBlock#PART_Watermark">
+                    <Setter Property="Foreground" Value="Black"/>
+                </Style>
+            </Style>
+        </Style>
+        <Style Selector="Button.button">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.button /template/ ContentPresenter:pointerover">
+            <Setter Property="Background" Value="Black"/>
+        </Style>
+        </UserControl.Styles>
+  <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Image Source="avares://SportShop/Assets/logo.jpg" Width="100" Height="100" Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBlock Text="GoActive" Foreground="Black" FontSize="40" FontWeight="Bold" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Text="The best place to buy sports equipment" Foreground="Black" FontSize="20" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Border Background="#FFF" CornerRadius="10" Padding="20" Grid.Row="3" Margin="0,20,0,0" BorderBrush="Black" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Username:" FontSize="16" Margin="0,0,0,10"/>
+                <TextBox Text="{Binding Username}" Classes="input" Watermark="Enter username" />
+                <TextBlock Text="Password:" FontSize="16" Margin="0,20,0,10"/>
+                <TextBox Text="{Binding Password}" Classes="input" Watermark="Enter password" PasswordChar="*"/>
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" Margin="0,20,0,0"/>
+                <Button Classes="button" Content="Login" Margin="0,20,0,0" Click="OnButtonClick"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
