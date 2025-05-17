@@ -12,6 +12,7 @@ namespace SportShop.ViewModels
 
         public MainWindowViewModel()
         {
+            // CurrentView = new DashboardView(RedirectToLogin, new User { Id = "1", Login = "admin", Password = "admin", Type = UserType.ADMIN });
             CurrentView = new LoginView(redirectToDashboard: RedirectToDashboard);
         }
 

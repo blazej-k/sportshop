@@ -11,11 +11,11 @@ namespace SportShop.ViewModels
         private string _username = "";
         private string _password = "";
         private string _errorMessage = "";
-        private readonly Action<User> _redirectToDashboard;
+        private readonly Action<User> RedirectToDashboard;
 
         public LoginViewModel(Action<User> redirectToDashboard)
         {
-            _redirectToDashboard = redirectToDashboard;
+            RedirectToDashboard = redirectToDashboard;
         }
 
         public string ErrorMessage
@@ -78,7 +78,7 @@ namespace SportShop.ViewModels
                 return;
             }
 
-            _redirectToDashboard.Invoke(user);
+            RedirectToDashboard.Invoke(user);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

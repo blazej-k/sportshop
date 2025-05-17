@@ -10,8 +10,8 @@ namespace SportShop.Views
   {
     public DashboardView(Action redirectToLogin, User currentUser)
     {
-      DataContext = new DashboardViewModel(redirectToLogin, currentUser);
       InitializeComponent();
+      DataContext = new DashboardViewModel(redirectToLogin, currentUser);
     }
 
     private void InitializeComponent()

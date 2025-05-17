@@ -1,10 +1,72 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="SportShop.Views.DashboardView">
-  <Grid>
-    <TextBlock  Foreground="Black"  Text="Welcome to Dashboard" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:SportShop.ViewModels" x:DataType="vm:DashboardViewModel"
+  x:Class="SportShop.Views.DashboardView" xmlns:models="using:SportShop.Models">
+  <UserControl.Styles>
+        <Style Selector="Button.button">
+          <Setter Property="Background" Value="Black"/>
+          <Setter Property="Foreground" Value="White"/>
+          <Setter Property="Height" Value="30"/>
+          <Setter Property="Width" Value="100"/>
+          <Setter Property="HorizontalAlignment" Value="Center"/>
+          <Setter Property="HorizontalContentAlignment" Value="Center"/>
+          <Setter Property="VerticalContentAlignment" Value="Center"/>
+          <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Grid.container">
+          <Setter Property="Margin" Value="30"/>
+        </Style>
+        <Style Selector="Button.button /template/ ContentPresenter:pointerover">
+            <Setter Property="Background" Value="Black"/>
+        </Style>
+        </UserControl.Styles>
+  <Grid Classes="container">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Foreground="Black" Text="Moje zamówienia" 
       FontSize="24" 
-      HorizontalAlignment="Center" 
-      VerticalAlignment="Center"/>
+      HorizontalAlignment="Left" 
+      VerticalAlignment="Center" />
+      <ItemsControl Grid.Row="1" ItemsSource="{Binding Orders}" Tag="{Binding IsAdmin}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="models:Order">
+            <Border Margin="0,10,0,0" CornerRadius="5" BorderBrush="Gray" BorderThickness="1" Padding="5">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"/> 
+                  <ColumnDefinition Width="*"/>   
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                  <TextBlock Margin="5 0" FontWeight="Bold" Text="{Binding PublicId}" Foreground="Black"/>
+                  <TextBlock Margin="5 0" Foreground="Black" Text="{Binding StringFormat='Status: {0}', Path=Status}"/>
+                  <TextBlock Margin="5 0" Foreground="Black" Text="{Binding StringFormat='Cena: {0} zł', Path=Price}"/>
+                  <TextBlock Margin="5 0" Foreground="Black" Text="{Binding Product.Name}"/>
+                </StackPanel>
+                <Button Grid.Column="2" Content="Admin Panel" Classes="button" IsVisible="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <StackPanel Margin="0,30,0,0" Grid.Row="2" IsVisible="{Binding IsAdmin}">
+        <TextBlock Foreground="Black" Text="Lista użytkowników" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        <ItemsControl ItemsSource="{Binding Users}" IsVisible="{Binding IsAdmin}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="models:User">
+              <Border Margin="0,10,0,0"
+                  CornerRadius="5"
+                  BorderBrush="Gray" BorderThickness="1"
+                  Padding="5">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                  <TextBlock Foreground="Black" FontWeight="Bold" Text="{Binding StringFormat='Login: {0}', Path=Login}" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
   </Grid>
 </UserControl>

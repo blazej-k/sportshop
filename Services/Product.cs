@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using DTO;
+using DynamicData;
+using Interfaces;
 using SportShop.Models;
 
 namespace SportShop.Services
 {
-    public class ProductService
+    public class ProductService : IService<Product, UpdateProductDto, CreateProductDto>
     {
         private List<Product> mockProducts = new List<Product>
         {
@@ -12,15 +15,28 @@ namespace SportShop.Services
             new Product { Id = "3", Name = "Product 3", Price = 300 },
         };
 
-        public List<Product> GetProducts()
+        public Product[] GetAll()
         {
-            return mockProducts;
+            return [.. mockProducts];
         }
 
-        public Product GetProductById(string id)
+        public Product? GetOne(string id)
         {
-            return mockProducts.Find(p => p.Id == id);
+            return mockProducts.FindLast(user => user.Id == id);
         }
 
+        public Product Create(CreateProductDto dto)
+        {
+            int count = mockProducts.Count + 1;
+            mockProducts.Add(new Product { Id = $"{count}", Name = dto.Name, Price = dto.Price, Description = dto.Description });
+            return GetOne($"{count}");
+        }
+
+        public Product Update(string id, UpdateProductDto dto)
+        {
+            Product currentProduct = mockProducts.Find(user => user.Id == id);
+            mockProducts.Replace(currentProduct, new Product { Id = currentProduct.Id, Name = dto.Name ?? currentProduct.Name, Price = dto.Price ?? currentProduct.Price, Description = dto.Description ?? currentProduct.Description });
+            return GetOne(currentProduct.Id);
+        }
     }
 }
