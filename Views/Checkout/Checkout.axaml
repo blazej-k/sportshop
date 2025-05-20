@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:SportShop.ViewModels" x:DataType="vm:CheckoutViewModel"
+  x:Class="SportShop.Views.CheckoutView" xmlns:models="using:SportShop.Models">
+  <UserControl.Styles>
+    <Style Selector="ComboBox.select">
+      <Setter Property="Height" Value="30"/>
+      <Setter Property="Background" Value="#949494"/>
+      <Setter Property="BorderBrush" Value="Black"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Foreground" Value="White"/>
+       <Style Selector="^:focus">
+        <Setter Property="Foreground" Value="White"/>
+        <Style Selector="^ /template/ TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+      </Style>
+    </Style>
+    <Style Selector="NumericUpDown.input">
+      <Setter Property="Background" Value="#949494"/>
+    </Style>
+    <Style Selector="Grid.container">
+        <Setter Property="Margin" Value="0,30,0,30"/>
+    </Style>
+    <Style Selector="Button.button">
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+    <Style Selector="Button.button /template/ ContentPresenter:pointerover">
+        <Setter Property="Background" Value="Black"/>
+    </Style>
+    </UserControl.Styles>
+    <Grid Classes="container">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="2*" />  
+      <ColumnDefinition Width="6*" />  
+      <ColumnDefinition Width="2*" />  
+    </Grid.ColumnDefinitions>
+    <TextBlock FontSize="24" Margin="0,0,0,20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="0" Foreground="Black" Text="Order your product" />
+    <ComboBox PlaceholderText="--Select the product--" Classes="select" Grid.Column="1" Margin="0,0,0,10" SelectedItem="{Binding SelectedProduct}" Grid.Row="1" ItemsSource="{Binding Products}" HorizontalAlignment="Stretch" MaxDropDownHeight="300">
+      <ComboBox.ItemTemplate>
+        <DataTemplate x:DataType="models:Product">
+          <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+      </ComboBox.ItemTemplate>
+    </ComboBox>
+    <NumericUpDown Classes="input" Text="Enter the amount"  Grid.Row="2"  Margin="0,0,0,20" Grid.Column="1" Minimum="1" Increment="1" Value="{Binding Quantity}" HorizontalAlignment="Stretch"/>
+    <Button Grid.Row="3" Grid.Column="1" Classes="button" Content="Submit" />
+  </Grid>
+</UserControl>

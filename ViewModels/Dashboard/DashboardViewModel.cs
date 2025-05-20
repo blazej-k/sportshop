@@ -23,8 +23,6 @@ namespace SportShop.ViewModels
             _currentUser = currentUser;
             Orders = orderService.GetOrdersByUserId(currentUser.Id);
             Users = usersService.GetAll();
-
-
         }
 
         public Order[] Orders

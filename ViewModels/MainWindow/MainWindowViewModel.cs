@@ -12,8 +12,9 @@ namespace SportShop.ViewModels
 
         public MainWindowViewModel()
         {
-            // CurrentView = new DashboardView(RedirectToLogin, new User { Id = "1", Login = "admin", Password = "admin", Type = UserType.ADMIN });
-            CurrentView = new LoginView(redirectToDashboard: RedirectToDashboard);
+            CurrentView = new DashboardView(RedirectToLogin, new User { Id = "1", Login = "admin", Password = "admin", Type = UserType.ADMIN });
+            // CurrentView = new LoginView(redirectToDashboard: RedirectToDashboard);
+            // CurrentView = new CheckoutView(redirectToDashboard: RedirectToDashboard, new User { Id = "1", Login = "admin", Password = "admin", Type = UserType.ADMIN });
         }
 
         public object CurrentView
@@ -34,6 +35,11 @@ namespace SportShop.ViewModels
         public void RedirectToLogin()
         {
             CurrentView = new LoginView(RedirectToDashboard);
+        }
+
+        public void RedirectToCheckout(User currentUser)
+        {
+            CurrentView = new CheckoutView(RedirectToDashboard, currentUser);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

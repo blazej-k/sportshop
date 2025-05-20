@@ -6,7 +6,7 @@
 
 - Przeglądanie produktów
 - Szczegółowe opisy
-- Bezpieczne płatności i śledzenie zamówień
+- Zarządzanie zmówieniami
 
 ## 🧑‍💻 Technologie
 
