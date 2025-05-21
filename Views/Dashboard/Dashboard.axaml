@@ -31,8 +31,8 @@
       <ColumnDefinition Width="Auto"/>
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
-      <Button Content="Sign out" Classes="button" Grid.Column="1" />
-      <Button Content="Make an order" Classes="button" Grid.Column="2"/>
+      <Button Content="Sign out" Classes="button" Grid.Column="1" Click="OnSignOut" />
+      <Button Content="Make an order" Classes="button" Grid.Column="2" Click="OnCheckout"/>
     </Grid>
     <TextBlock Grid.Row="1" Foreground="Black" Text="My orders" 
       FontSize="24" 

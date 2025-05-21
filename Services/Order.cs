@@ -10,9 +10,9 @@ namespace SportShop.Services
   public class OrderService : IService<Order, UpdateOrderDto, CreateOrderDto>
   {
     private List<Order> mockOrders = new List<Order>
-        {
-            new Order { Id = "1", PublicId = "Z/0000001", User = new User { Id = "1", Login = "admin", Password = "admin", Type = UserType.ADMIN }, Product = new Product { Id = "1", Name = "Product 1", Price = 100 }, Quantity = 1, Price = 100, Date = DateTime.Now, Status = OrderStatus.IN_PROGRESS },
-        };
+    {
+        new Order { Id = "1", PublicId = "Z/0000001", User = new User { Id = "1", Login = "admin", Password = "admin", Type = UserType.ADMIN }, Product = new Product { Id = "1", Name = "Product 1", Price = 100 }, Quantity = 1, Price = 100, Date = DateTime.Now, Status = OrderStatus.IN_PROGRESS },
+    };
 
     public Order[] GetOrdersByUserId(string userId)
     {

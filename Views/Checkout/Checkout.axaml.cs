@@ -18,5 +18,11 @@ namespace SportShop.Views
     {
       AvaloniaXamlLoader.Load(this);
     }
+
+    private void OnSubmit(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+      var viewModel = DataContext as CheckoutViewModel;
+      viewModel.OnSubmit();
+    }
   }
 }

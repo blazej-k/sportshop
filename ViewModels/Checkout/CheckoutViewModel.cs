@@ -1,24 +1,29 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using DTO;
 using SportShop.Models;
 using SportShop.Services;
 
 namespace SportShop.ViewModels
 {
-    public class CheckoutViewModel
+    public class CheckoutViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private User _currentUser;
         private Product[] _products;
-        private Product _selectedProduct;
-        private int _quantity;
-        private ProductService productService = new ProductService();
+        private Product? _selectedProduct;
+        private int _quantity = 1;
+        private string _err = "";
+        private Action<User> RedirectToDashboard;
+        private readonly ProductService _productService = new ProductService();
+        private readonly OrderService _orderService = new OrderService();
 
         public CheckoutViewModel(Action<User> redirectToDashboard, User currentUser)
         {
             _currentUser = currentUser;
-            Products = productService.GetAll();
+            Products = _productService.GetAll();
+            RedirectToDashboard = redirectToDashboard;
         }
 
         public Product[] Products
@@ -34,7 +39,7 @@ namespace SportShop.ViewModels
             }
         }
 
-        public Product SelectedProduct
+        public Product? SelectedProduct
         {
             get => _selectedProduct;
             set
@@ -57,6 +62,48 @@ namespace SportShop.ViewModels
                     _quantity = value;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        public string ErrorMessage
+        {
+            get => _err;
+            set
+            {
+                if (_err != value)
+                {
+                    _err = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private string ValidateCheckout()
+        {
+            if (SelectedProduct == null)
+            {
+                return "Please, provide valid product";
+            }
+
+            if (Quantity < 1)
+            {
+                return "Please, provide valid quantity";
+            }
+
+            return "";
+        }
+
+
+        public void OnSubmit()
+        {
+            string errorMessage = ValidateCheckout();
+            bool isValid = string.IsNullOrEmpty(errorMessage);
+            ErrorMessage = errorMessage;
+
+            if (isValid)
+            {
+                _orderService.Create(new CreateOrderDto { ProductId = SelectedProduct.Id, Quantity = Quantity, UserId = _currentUser.Id });
+                RedirectToDashboard.Invoke(_currentUser);
             }
         }
 

@@ -35,8 +35,10 @@
         <Setter Property="Background" Value="Black"/>
     </Style>
     </UserControl.Styles>
+    <StackPanel>
     <Grid Classes="container">
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
@@ -55,7 +57,9 @@
         </DataTemplate>
       </ComboBox.ItemTemplate>
     </ComboBox>
-    <NumericUpDown Classes="input" Text="Enter the amount"  Grid.Row="2"  Margin="0,0,0,20" Grid.Column="1" Minimum="1" Increment="1" Value="{Binding Quantity}" HorizontalAlignment="Stretch"/>
-    <Button Grid.Row="3" Grid.Column="1" Classes="button" Content="Submit" />
+    <NumericUpDown Classes="input" Text="Enter the amount" Grid.Row="2" Margin="0,0,0,20" Grid.Column="1" Minimum="1" Increment="1" Value="{Binding Quantity}" HorizontalAlignment="Stretch"/>
+    <TextBlock Text="{Binding ErrorMessage, Mode=OneWay}" Foreground="Red" Margin="0,0,0,20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="3" />
+    <Button Grid.Row="4" Grid.Column="1" Classes="button" Content="Submit" Click="OnSubmit"/>
   </Grid>
+  </StackPanel>
 </UserControl>

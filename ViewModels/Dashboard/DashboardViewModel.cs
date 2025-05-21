@@ -6,23 +6,25 @@ using SportShop.Services;
 
 namespace SportShop.ViewModels
 {
-    public class DashboardViewModel
+    public class DashboardViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly Action RedirectToLogin;
+        private readonly Action<User> RedirectToCheckout;
         private User _currentUser;
         private Order[] _orders;
         private User[] _users;
         private bool _isAdmin;
-        private UserService usersService = new UserService();
-        private OrderService orderService = new OrderService();
+        private readonly UserService _usersService = new UserService();
+        private readonly OrderService _orderService = new OrderService();
 
-        public DashboardViewModel(Action redirectToLogin, User currentUser)
+        public DashboardViewModel(Action redirectToLogin, Action<User> redirectToCheckout, User currentUser)
         {
             RedirectToLogin = redirectToLogin;
             _currentUser = currentUser;
-            Orders = orderService.GetOrdersByUserId(currentUser.Id);
-            Users = usersService.GetAll();
+            Orders = _orderService.GetOrdersByUserId(currentUser.Id);
+            Users = _usersService.GetAll();
+            RedirectToCheckout = redirectToCheckout;
         }
 
         public Order[] Orders
@@ -70,9 +72,14 @@ namespace SportShop.ViewModels
             IsAdmin = _currentUser?.Type == UserType.ADMIN;
         }
 
-        public void LogOut()
+        public void SignOut()
         {
             RedirectToLogin.Invoke();
+        }
+
+        public void OnCheckout()
+        {
+            RedirectToCheckout.Invoke(_currentUser);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
