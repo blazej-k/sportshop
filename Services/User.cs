@@ -42,5 +42,10 @@ namespace SportShop.Services
       mockUsers.Replace(currentUser, new User { Id = currentUser.Id, Login = currentUser.Login, Password = currentUser.Password, Type = dto.UserType ?? currentUser.Type });
       return GetOne(currentUser.Id);
     }
+
+    public void Delete(string id)
+    {
+      mockUsers.RemoveAll(o => o.Id == id);
+    }
   }
 }

@@ -21,7 +21,7 @@
     <Style Selector="Grid.container">
         <Setter Property="Margin" Value="0,30,0,30"/>
     </Style>
-    <Style Selector="Button.button">
+    <Style Selector="Button.submit">
         <Setter Property="Background" Value="Black"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Height" Value="30"/>
@@ -31,13 +31,31 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Cursor" Value="Hand"/>
     </Style>
-    <Style Selector="Button.button /template/ ContentPresenter:pointerover">
-        <Setter Property="Background" Value="Black"/>
+    <Style Selector="Button.cancel">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+    <Style Selector="Button.submit /template/ ContentPresenter:pointerover">
+      <Setter Property="Background" Value="Black"/>
+    </Style>
+    <Style Selector="Button.cancel /template/ ContentPresenter:pointerover">
+      <Setter Property="Background" Value="White"/>
+      <Setter Property="Foreground" Value="Black"/>
+      <Setter Property="BorderBrush" Value="Black"/>
     </Style>
     </UserControl.Styles>
     <StackPanel>
     <Grid Classes="container">
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
@@ -59,7 +77,8 @@
     </ComboBox>
     <NumericUpDown Classes="input" Text="Enter the amount" Grid.Row="2" Margin="0,0,0,20" Grid.Column="1" Minimum="1" Increment="1" Value="{Binding Quantity}" HorizontalAlignment="Stretch"/>
     <TextBlock Text="{Binding ErrorMessage, Mode=OneWay}" Foreground="Red" Margin="0,0,0,20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="3" />
-    <Button Grid.Row="4" Grid.Column="1" Classes="button" Content="Submit" Click="OnSubmit"/>
+    <Button Grid.Row="4" Margin="0,0,0,5" Grid.Column="1" Classes="submit" Content="Submit" Click="OnSubmit"/>
+    <Button Grid.Row="5" Grid.Column="1" Classes="cancel" Content="Cancel" Click="OnCancel" />
   </Grid>
   </StackPanel>
 </UserControl>

@@ -54,7 +54,7 @@
                   <TextBlock Margin="5 0" Foreground="Black" Text="{Binding StringFormat='Cena: {0} zł', Path=Price}"/>
                   <TextBlock Margin="5 0" Foreground="Black" Text="{Binding Product.Name}"/>
                 </StackPanel>
-                <Button Grid.Column="2" Content="Admin Panel" Classes="button" IsVisible="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+                <Button Grid.Column="2" Content="Remove" Classes="button" IsVisible="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Click="OnRemove"/>
               </Grid>
             </Border>
           </DataTemplate>

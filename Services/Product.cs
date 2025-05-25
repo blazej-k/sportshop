@@ -38,5 +38,10 @@ namespace SportShop.Services
             mockProducts.Replace(currentProduct, new Product { Id = currentProduct.Id, Name = dto.Name ?? currentProduct.Name, Price = dto.Price ?? currentProduct.Price, Description = dto.Description ?? currentProduct.Description });
             return GetOne(currentProduct.Id);
         }
+
+        public void Delete(string id)
+        {
+            mockProducts.RemoveAll(p => p.Id == id);
+        }
     }
 }

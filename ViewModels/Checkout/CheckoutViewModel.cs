@@ -107,6 +107,11 @@ namespace SportShop.ViewModels
             }
         }
 
+        public void OnCancel()
+        {
+            RedirectToDashboard.Invoke(_currentUser);
+        }
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

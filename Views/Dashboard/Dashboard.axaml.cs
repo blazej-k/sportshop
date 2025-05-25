@@ -30,5 +30,13 @@ namespace SportShop.Views
       var viewModel = DataContext as DashboardViewModel;
       viewModel.OnCheckout();
     }
+
+    private void OnRemove(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+      Button button = sender as Button;
+      Order order = button.DataContext as Order;
+      var viewModel = DataContext as DashboardViewModel;
+      viewModel.OnRemove(order.Id);
+    }
   }
 }

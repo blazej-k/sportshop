@@ -55,5 +55,10 @@ namespace SportShop.Services
       mockOrders.Replace(currentOrder, new Order { Id = currentOrder.Id, Quantity = dto.Quantity ?? currentOrder.Quantity, Status = dto.OrderStatus ?? currentOrder.Status, PublicId = currentOrder.PublicId, Date = currentOrder.Date, User = currentOrder.User, Product = currentOrder.Product, });
       return GetOne(currentOrder.Id);
     }
+
+    public void Delete(string id)
+    {
+      mockOrders.RemoveAll(o => o.Id == id);
+    }
   }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SportShop.Models;
@@ -80,6 +81,12 @@ namespace SportShop.ViewModels
         public void OnCheckout()
         {
             RedirectToCheckout.Invoke(_currentUser);
+        }
+
+        public void OnRemove(string id)
+        {
+            _orderService.Delete(id);
+            Orders = _orderService.GetAll();
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
