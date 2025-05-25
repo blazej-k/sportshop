@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Threading.Tasks;
 using DTO;
 using DynamicData;
 using Interfaces;
@@ -6,46 +9,71 @@ using SportShop.Models;
 
 namespace SportShop.Services
 {
-  public class UserService : IService<User, UpdateUserDto, CreateUserDto>
+  public class UserService : APIService, IService<User, UpdateUserDto, CreateUserDto>
   {
-    private List<User> mockUsers = new List<User>
-        {
-            new User { Id = "1", Login = "admin", Password = "admin", Type = UserType.ADMIN },
-            new User { Id = "2", Login = "customer", Password = "customer", Type = UserType.CUSTOMER },
-        };
-
-    protected User? CheckIfUserExists(string login, string password)
+    protected async Task<User?> CheckIfUserExists(string login, string password)
     {
-      return mockUsers.Find(user => user.Login == login && user.Password == password);
+      var data = await GetData($"""SELECT * FROM "user" WHERE login = '{login}' AND password = '{password}'""");
+
+      if (data.Rows.Count == 0)
+      {
+        return null;
+      }
+
+      User user = MapDataRow(data.Rows[0]);
+      return user;
     }
 
-    public User[] GetAll()
+    async public Task<User[]> GetAll()
     {
-      return [.. mockUsers];
+      var data = await GetData($"""SELECT * FROM "user";""");
+      User[] users = MapData(data);
+      return users;
     }
 
-    public User? GetOne(string id)
+    async public Task<User?> GetOne(string id)
     {
-      return mockUsers.FindLast(user => user.Id == id);
+      var data = await GetData($"""SELECT * FROM "user" WHERE id = '{id}'""");
+      User user = MapDataRow(data.Rows[0]);
+      return user;
     }
 
-    public User Create(CreateUserDto dto)
+    async public Task<User> Create(CreateUserDto dto)
     {
-      int count = mockUsers.Count + 1;
-      mockUsers.Add(new User { Id = $"{count}", Login = dto.Login, Password = dto.Password, Type = dto.UserType });
-      return GetOne($"{count}");
+      var data = await GetData($"""INSERT INTO "user" (login, password, type) VALUES('{dto.Login}', '{dto.Password}', '{dto.Type}') RETURNING *""");
+      User user = MapDataRow(data.Rows[0]);
+      return await GetOne(user.Id);
     }
 
-    public User Update(string id, UpdateUserDto dto)
+    async public Task<User> Update(string id, UpdateUserDto dto)
     {
-      User currentUser = mockUsers.Find(user => user.Id == id);
-      mockUsers.Replace(currentUser, new User { Id = currentUser.Id, Login = currentUser.Login, Password = currentUser.Password, Type = dto.UserType ?? currentUser.Type });
-      return GetOne(currentUser.Id);
+      var data = await GetData($"""UPDATE "user" SET type = '{dto.Type}' WHERE "id" = '{id}' RETURNING *""");
+      User user = MapDataRow(data.Rows[0]);
+      return await GetOne(user.Id);
     }
 
-    public void Delete(string id)
+    async public void Delete(string id)
     {
-      mockUsers.RemoveAll(o => o.Id == id);
+      await GetData($"""DELETE FROM "user" WHERE "id" = '{id}' """);
+    }
+
+    public User[] MapData(DataTable data)
+    {
+      List<User> users = [];
+
+      foreach (DataRow row in data.Rows)
+      {
+        User user = MapDataRow(row);
+        users.Add(user);
+      }
+
+      return [.. users];
+    }
+
+
+    public User MapDataRow(DataRow apiRow)
+    {
+      return new User { Id = apiRow["id"].ToString(), Login = apiRow["login"].ToString(), Password = apiRow["password"].ToString(), Type = (UserType)Enum.Parse(typeof(UserType), apiRow["type"].ToString()) };
     }
   }
 }

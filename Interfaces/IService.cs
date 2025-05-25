@@ -1,11 +1,16 @@
+using System.Data;
+using System.Threading.Tasks;
+
 namespace Interfaces
 {
   interface IService<T, U, C>
   {
-    protected T[] GetAll();
-    protected T? GetOne(string id);
-    protected T Update(string id, U dto);
-    protected T Create(C dto);
+    protected Task<T[]> GetAll();
+    protected Task<T?> GetOne(string id);
+    protected Task<T> Update(string id, U dto);
+    protected Task<T> Create(C dto);
     protected void Delete(string id);
+    protected T MapDataRow(DataRow dataRow);
+    protected T[] MapData(DataTable data);
   }
 }

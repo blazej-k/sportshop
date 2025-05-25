@@ -6,7 +6,7 @@ namespace DTO
   {
     public int? Quantity { get; set; }
     public double? Price { get; set; }
-    public OrderStatus? OrderStatus { get; set; }
+    public OrderStatus? Status { get; set; }
   }
 
   public class CreateOrderDto

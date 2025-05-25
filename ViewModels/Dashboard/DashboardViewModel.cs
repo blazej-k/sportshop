@@ -1,7 +1,8 @@
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using SportShop.Models;
 using SportShop.Services;
 
@@ -23,9 +24,18 @@ namespace SportShop.ViewModels
         {
             RedirectToLogin = redirectToLogin;
             _currentUser = currentUser;
-            Orders = _orderService.GetOrdersByUserId(currentUser.Id);
-            Users = _usersService.GetAll();
             RedirectToCheckout = redirectToCheckout;
+            SetDashboardDataFromApi();
+        }
+
+        private async Task SetDashboardDataFromApi()
+        {
+            Orders = await _orderService.GetOrdersByUserId(_currentUser.Id);
+
+            if (IsAdmin)
+            {
+                Users = await _usersService.GetAll();
+            }
         }
 
         public Order[] Orders
@@ -68,6 +78,19 @@ namespace SportShop.ViewModels
             }
         }
 
+        public static Func<OrderStatus, string> StatusMapper { get; } = status =>
+        {
+            switch (status)
+            {
+                case OrderStatus.COMPLETED:
+                    return "Zakończone";
+                case OrderStatus.IN_PROGRESS:
+                    return "W trakcie realizacji";
+                default:
+                    return "Nieznany";
+            }
+        };
+
         private void UpdateIsAdmin()
         {
             IsAdmin = _currentUser?.Type == UserType.ADMIN;
@@ -83,10 +106,16 @@ namespace SportShop.ViewModels
             RedirectToCheckout.Invoke(_currentUser);
         }
 
-        public void OnRemove(string id)
+        public async Task OnOrderRemove(string id)
         {
             _orderService.Delete(id);
-            Orders = _orderService.GetAll();
+            Orders = await _orderService.GetAll();
+        }
+
+        public async Task OnUserRemove(string id)
+        {
+            _usersService.Delete(id);
+            Users = await _usersService.GetAll();
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

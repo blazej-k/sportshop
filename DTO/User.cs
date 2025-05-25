@@ -4,12 +4,12 @@ namespace DTO
 {
   public class UpdateUserDto
   {
-    public UserType? UserType { get; set; }
+    public UserType? Type { get; set; }
   }
 
   public class CreateUserDto
   {
-    public UserType UserType { get; set; }
+    public UserType Type { get; set; }
     public string Login { get; set; }
     public string Password { get; set; }
   }

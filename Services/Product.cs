@@ -1,47 +1,63 @@
 using System.Collections.Generic;
+using System.Data;
+using System.Threading.Tasks;
 using DTO;
-using DynamicData;
 using Interfaces;
 using SportShop.Models;
 
 namespace SportShop.Services
 {
-    public class ProductService : IService<Product, UpdateProductDto, CreateProductDto>
+    public class ProductService : APIService, IService<Product, UpdateProductDto, CreateProductDto>
     {
-        private List<Product> mockProducts = new List<Product>
+        async public Task<Product[]> GetAll()
         {
-            new Product { Id = "1", Name = "Product 1", Price = 100 },
-            new Product { Id = "2", Name = "Product 2", Price = 200 },
-            new Product { Id = "3", Name = "Product 3", Price = 300 },
-        };
-
-        public Product[] GetAll()
-        {
-            return [.. mockProducts];
+            var data = await GetData($"""SELECT * FROM "product";""");
+            Product[] products = MapData(data);
+            return products;
         }
 
-        public Product? GetOne(string id)
+        async public Task<Product?> GetOne(string id)
         {
-            return mockProducts.FindLast(user => user.Id == id);
+            var data = await GetData($"""SELECT * FROM "product" WHERE id = '{id}'""");
+            Product product = MapDataRow(data.Rows[0]);
+            return product;
         }
 
-        public Product Create(CreateProductDto dto)
+        async public Task<Product> Create(CreateProductDto dto)
         {
-            int count = mockProducts.Count + 1;
-            mockProducts.Add(new Product { Id = $"{count}", Name = dto.Name, Price = dto.Price, Description = dto.Description });
-            return GetOne($"{count}");
+            var data = await GetData($"""INSERT INTO "product" (name, description, price) VALUES('{dto.Name}', '{dto.Description}', {dto.Price}) RETURNING *""");
+            Product product = MapDataRow(data.Rows[0]);
+            return await GetOne(product.Id);
         }
 
-        public Product Update(string id, UpdateProductDto dto)
+        async public Task<Product> Update(string id, UpdateProductDto dto)
         {
-            Product currentProduct = mockProducts.Find(user => user.Id == id);
-            mockProducts.Replace(currentProduct, new Product { Id = currentProduct.Id, Name = dto.Name ?? currentProduct.Name, Price = dto.Price ?? currentProduct.Price, Description = dto.Description ?? currentProduct.Description });
-            return GetOne(currentProduct.Id);
+            var data = await GetData($"""UPDATE "product" SET name = '{dto.Name}' description = '{dto.Name}' price = {dto.Price}  WHERE "id" = '{id}' RETURNING *""");
+            Product product = MapDataRow(data.Rows[0]);
+            return await GetOne(product.Id);
         }
 
-        public void Delete(string id)
+        async public void Delete(string id)
         {
-            mockProducts.RemoveAll(p => p.Id == id);
+            await GetData($"""DELETE FROM "product" WHERE "id" = '{id}' """);
+        }
+
+        public Product[] MapData(DataTable data)
+        {
+            List<Product> products = [];
+
+            foreach (DataRow row in data.Rows)
+            {
+                Product product = MapDataRow(row);
+                products.Add(product);
+            }
+
+            return [.. products];
+        }
+
+        public Product MapDataRow(DataRow apiRow)
+        {
+            return new Product { Id = apiRow["id"].ToString(), Name = apiRow["name"].ToString(), Description = apiRow["description"].ToString(), Price = double.Parse(apiRow["price"].ToString()) };
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using SportShop.Models;
 using SportShop.Services;
 
@@ -58,7 +59,7 @@ namespace SportShop.ViewModels
             return "";
         }
 
-        public void OnLogin()
+        public async Task OnLogin()
         {
             string errorMessage = ValidateLogin();
             bool isValid = string.IsNullOrEmpty(errorMessage);
@@ -70,7 +71,7 @@ namespace SportShop.ViewModels
                 return;
             }
 
-            User? user = CheckIfUserExists(_username, _password);
+            User? user = await CheckIfUserExists(_username, _password);
 
             if (user is null)
             {

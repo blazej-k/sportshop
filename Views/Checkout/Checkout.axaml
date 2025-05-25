@@ -75,7 +75,7 @@
         </DataTemplate>
       </ComboBox.ItemTemplate>
     </ComboBox>
-    <NumericUpDown Classes="input" Text="Enter the amount" Grid.Row="2" Margin="0,0,0,20" Grid.Column="1" Minimum="1" Increment="1" Value="{Binding Quantity}" HorizontalAlignment="Stretch"/>
+    <NumericUpDown Classes="input" Text="Enter the amount" Grid.Row="2" Margin="0,0,0,20" Grid.Column="1" Minimum="1" Increment="1" Value="{Binding Quantity}" Watermark="Enter the amount" HorizontalAlignment="Stretch"/>
     <TextBlock Text="{Binding ErrorMessage, Mode=OneWay}" Foreground="Red" Margin="0,0,0,20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="3" />
     <Button Grid.Row="4" Margin="0,0,0,5" Grid.Column="1" Classes="submit" Content="Submit" Click="OnSubmit"/>
     <Button Grid.Row="5" Grid.Column="1" Classes="cancel" Content="Cancel" Click="OnCancel" />

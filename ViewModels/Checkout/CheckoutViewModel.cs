@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using DTO;
 using SportShop.Models;
 using SportShop.Services;
@@ -22,8 +23,13 @@ namespace SportShop.ViewModels
         public CheckoutViewModel(Action<User> redirectToDashboard, User currentUser)
         {
             _currentUser = currentUser;
-            Products = _productService.GetAll();
             RedirectToDashboard = redirectToDashboard;
+            SetDashboardDataFromApi();
+        }
+
+        private async Task SetDashboardDataFromApi()
+        {
+            Products = await _productService.GetAll();
         }
 
         public Product[] Products
@@ -94,7 +100,7 @@ namespace SportShop.ViewModels
         }
 
 
-        public void OnSubmit()
+        public async Task OnSubmit()
         {
             string errorMessage = ValidateCheckout();
             bool isValid = string.IsNullOrEmpty(errorMessage);
@@ -102,7 +108,7 @@ namespace SportShop.ViewModels
 
             if (isValid)
             {
-                _orderService.Create(new CreateOrderDto { ProductId = SelectedProduct.Id, Quantity = Quantity, UserId = _currentUser.Id });
+                await _orderService.Create(new CreateOrderDto { ProductId = SelectedProduct.Id, Quantity = Quantity, UserId = _currentUser.Id });
                 RedirectToDashboard.Invoke(_currentUser);
             }
         }
