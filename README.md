@@ -5,8 +5,8 @@
 ## 🚀 Funkcje
 
 - Przeglądanie produktów
-- Szczegółowe opisy
 - Zarządzanie zmówieniami
+- Zarządzanie użytkownikami
 
 ## 🧑‍💻 Technologie
 

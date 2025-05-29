@@ -41,6 +41,8 @@
       FontSize="24" 
       HorizontalAlignment="Left" 
       VerticalAlignment="Center" />
+      <TextBlock Margin="0,10,0,0" Grid.Row="2" Foreground="Black" Text="No orders" FontSize="16" IsVisible="{Binding ShowNoOrdersMessage}"/>
+      <TextBlock Margin="0,10,0,0" Grid.Row="2" Foreground="Black" Text="Loading..." FontSize="16" IsVisible="{Binding IsOrdersLoading}"/>
       <ItemsControl Grid.Row="2" ItemsSource="{Binding Orders}" Tag="{Binding IsAdmin}">
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="models:Order">
@@ -50,6 +52,7 @@
                   <ColumnDefinition Width="Auto"/> 
                   <ColumnDefinition Width="*"/>   
                   <ColumnDefinition Width="Auto"/>
+                  <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                   <TextBlock Margin="5 0" FontWeight="Bold" Text="{Binding PublicId}" Foreground="Black"/>
@@ -57,6 +60,7 @@
                   <TextBlock Margin="5 0" Foreground="Black" Text="{Binding StringFormat='Price: {0} zł', Path=Price}"/>
                   <TextBlock Margin="5 0" Foreground="Black" Text="{Binding Product.Name}"/>
                 </StackPanel>
+                <Button Grid.Column="3" Content="Toggle status" Classes="button" IsVisible="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Click="OnToggleStatus"/>
                 <Button Grid.Column="2" Content="Remove" Classes="button" IsVisible="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Click="OnOrderRemove"/>
               </Grid>
             </Border>
@@ -65,6 +69,7 @@
       </ItemsControl>
       <StackPanel Margin="0,30,0,0" Grid.Row="3" IsVisible="{Binding IsAdmin}">
         <TextBlock Foreground="Black" Text="Users list" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center" />
+         <TextBlock Margin="0,10,0,0" Grid.Row="4" Foreground="Black" Text="Loading..." FontSize="16" IsVisible="{Binding IsUsersLoading}"/>
         <ItemsControl ItemsSource="{Binding Users}" IsVisible="{Binding IsAdmin}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="models:User">

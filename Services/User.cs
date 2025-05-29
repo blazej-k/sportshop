@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using DTO;
-using DynamicData;
 using Interfaces;
 using SportShop.Models;
 

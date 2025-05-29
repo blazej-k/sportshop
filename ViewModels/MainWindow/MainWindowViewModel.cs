@@ -9,6 +9,7 @@ namespace SportShop.ViewModels
     public class MainWindowViewModel : UserService, INotifyPropertyChanged
     {
         private object _currentView;
+        private User? _currentUser;
 
         public MainWindowViewModel()
         {

@@ -32,7 +32,7 @@ namespace SportShop.Services
 
         async public Task<Product> Update(string id, UpdateProductDto dto)
         {
-            var data = await GetData($"""UPDATE "product" SET name = '{dto.Name}' description = '{dto.Name}' price = {dto.Price}  WHERE "id" = '{id}' RETURNING *""");
+            var data = await GetData($"""UPDATE "product" SET name = '{dto.Name}', description = '{dto.Name}', price = {dto.Price}  WHERE "id" = '{id}' RETURNING *""");
             Product product = MapDataRow(data.Rows[0]);
             return await GetOne(product.Id);
         }

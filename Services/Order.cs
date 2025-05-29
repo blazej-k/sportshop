@@ -12,14 +12,14 @@ namespace SportShop.Services
   {
     public async Task<Order[]> GetOrdersByUserId(string userId)
     {
-      var data = await GetData($"""SELECT o.id, o."publicId", o.quantity, o.date, o.status, u.id as "userId", u.login as "userLogin", u.password as "userPassword", u.type as "userType", p.id as "productId", p.name as "productName", p.description as "productDescription", p.price as "productPrice" from "order" o LEFT JOIN "user" u ON u."id" = o."userId" LEFT JOIN "product" p ON p."id" = o."productId" WHERE o."userId" = '{userId}';""");
+      var data = await GetData($"""SELECT o.id, o."publicId", o.quantity, o.date, o.status, u.id as "userId", u.login as "userLogin", u.password as "userPassword", u.type as "userType", p.id as "productId", p.name as "productName", p.description as "productDescription", p.price as "productPrice" from "order" o LEFT JOIN "user" u ON u."id" = o."userId" LEFT JOIN "product" p ON p."id" = o."productId" WHERE o."userId" = '{userId}' ORDER BY "publicId";""");
       Order[] orders = MapData(data);
       return orders;
     }
 
     async public Task<Order[]> GetAll()
     {
-      var data = await GetData($"""SELECT o.id, o."publicId", o.quantity, o.date, o.status, u.id as "userId", u.login as "userLogin", u.password as "userPassword", u.type as "userType", p.id as "productId", p.name as "productName", p.description as "productDescription", p.price as "productPrice" from "order" o LEFT JOIN "user" u ON u."id" = o."userId" LEFT JOIN "product" p ON p."id" = o."productId"; """);
+      var data = await GetData($"""SELECT o.id, o."publicId", o.quantity, o.date, o.status, u.id as "userId", u.login as "userLogin", u.password as "userPassword", u.type as "userType", p.id as "productId", p.name as "productName", p.description as "productDescription", p.price as "productPrice" from "order" o LEFT JOIN "user" u ON u."id" = o."userId" LEFT JOIN "product" p ON p."id" = o."productId"ORDER BY "publicId";""");
       Order[] orders = MapData(data);
       return orders;
     }
@@ -51,7 +51,7 @@ namespace SportShop.Services
 
     async public Task<Order> Update(string id, UpdateOrderDto dto)
     {
-      var data = await GetData($"""UPDATE "order" SET quantity = {dto.Quantity} status = '{dto.Status}'  WHERE "id" = '{id}' RETURNING *""");
+      var data = await GetData($"""UPDATE "order" SET quantity = {dto.Quantity}, status = '{dto.Status}'  WHERE "id" = '{id}' RETURNING *""");
       string orderId = data.Rows[0]["id"].ToString();
       return await GetOne(orderId);
     }
