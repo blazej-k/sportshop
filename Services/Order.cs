@@ -19,7 +19,7 @@ namespace SportShop.Services
 
     async public Task<Order[]> GetAll()
     {
-      var data = await GetData($"""SELECT o.id, o."publicId", o.quantity, o.date, o.status, u.id as "userId", u.login as "userLogin", u.password as "userPassword", u.type as "userType", p.id as "productId", p.name as "productName", p.description as "productDescription", p.price as "productPrice" from "order" o LEFT JOIN "user" u ON u."id" = o."userId" LEFT JOIN "product" p ON p."id" = o."productId"ORDER BY "publicId";""");
+      var data = await GetData($"""SELECT o.id, o."publicId", o.quantity, o.date, o.status, u.id as "userId", u.login as "userLogin", u.password as "userPassword", u.type as "userType", p.id as "productId", p.name as "productName", p.description as "productDescription", p.price as "productPrice" from "order" o LEFT JOIN "user" u ON u."id" = o."userId" LEFT JOIN "product" p ON p."id" = o."productId" ORDER BY "publicId";""");
       Order[] orders = MapData(data);
       return orders;
     }
@@ -33,16 +33,8 @@ namespace SportShop.Services
 
     async public Task<Order> Create(CreateOrderDto dto)
     {
-      var test = await GetData("""SELECT COUNT(*) FROM "order";""");
-      int count = 0;
-
-      foreach (DataRow row in test.Rows)
-      {
-        count = int.Parse(row["count"].ToString());
-      }
-
-      count++;
-      string publicId = $"Z/{count:D7}";
+      long unixTimestampMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+      string publicId = $"Z/{unixTimestampMs}";
 
       var data = await GetData($"""INSERT INTO "order" ("publicId", quantity, "productId", "userId") VALUES('{publicId}', {dto.Quantity}, '{dto.ProductId}', '{dto.UserId}') RETURNING *""");
       string orderId = data.Rows[0]["id"].ToString();
