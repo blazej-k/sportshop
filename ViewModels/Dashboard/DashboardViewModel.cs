@@ -146,7 +146,7 @@ namespace SportShop.ViewModels
         public async Task OnOrderRemove(string id)
         {
             _orderService.Delete(id);
-            Orders = await _orderService.GetAll();
+            Orders = await _orderService.GetOrdersByUserId(_currentUser.Id);
         }
 
         public async Task OnUserRemove(string id)
