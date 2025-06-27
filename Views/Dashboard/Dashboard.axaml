@@ -37,7 +37,7 @@
       <Button Content="Sign out" Classes="button" Grid.Column="1" Click="OnSignOut" />
       <Button Content="Make an order" Classes="button" Grid.Column="2" Click="OnCheckout"/>
     </Grid>
-    <TextBlock Grid.Row="1" Foreground="Black" Text="My orders" 
+    <TextBlock Grid.Row="1" Foreground="Black" Text="{Binding OrdersTitle}"
       FontSize="24" 
       HorizontalAlignment="Left" 
       VerticalAlignment="Center" />

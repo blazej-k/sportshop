@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DTO;
-using DynamicData;
 using SportShop.Models;
 using SportShop.Services;
 
@@ -30,6 +29,7 @@ namespace SportShop.ViewModels
             RedirectToLogin = redirectToLogin;
             _currentUser = currentUser;
             RedirectToCheckout = redirectToCheckout;
+            UpdateIsAdmin();
             SetDashboardDataFromApi();
         }
 
@@ -37,14 +37,18 @@ namespace SportShop.ViewModels
         {
             IsOrdersLoading = true;
             IsUsersLoading = true;
-            Orders = await _orderService.GetOrdersByUserId(_currentUser.Id);
-            IsOrdersLoading = false;
 
             if (IsAdmin)
             {
                 Users = await _usersService.GetAll();
+                Orders = await _orderService.GetAll();
+            }
+            else
+            {
+                Orders = await _orderService.GetOrdersByUserId(_currentUser.Id);
             }
 
+            IsOrdersLoading = false;
             IsUsersLoading = false;
             ShowNoOrdersMessage = Orders.Length == 0;
         }
@@ -57,7 +61,6 @@ namespace SportShop.ViewModels
                 if (_orders != value)
                 {
                     _orders = value;
-                    UpdateIsAdmin();
                     OnPropertyChanged();
                 }
             }
@@ -128,6 +131,8 @@ namespace SportShop.ViewModels
             }
         }
 
+        public string OrdersTitle => IsAdmin ? "All orders" : "My orders";
+
         private void UpdateIsAdmin()
         {
             IsAdmin = _currentUser?.Type == UserType.ADMIN;
@@ -146,7 +151,7 @@ namespace SportShop.ViewModels
         public async Task OnOrderRemove(string id)
         {
             _orderService.Delete(id);
-            Orders = await _orderService.GetOrdersByUserId(_currentUser.Id);
+            Orders = IsAdmin ? await _orderService.GetAll() : await _orderService.GetOrdersByUserId(_currentUser.Id);
         }
 
         public async Task OnUserRemove(string id)
