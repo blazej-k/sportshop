@@ -22,13 +22,45 @@
 
 - PostgreSQL
 
+## 🎮 Uruchamianie
+
+- Preferowane środowisko: VSC Code
+
+- .NET w wersji 8.0
+
+- Aby uruchomić aplikacje poprzez CLI należy odpalić komendę <i>dotnet run</i>
+
+- W panelu logowania:
+
+  - Konto admina: login admin, hasło admin
+
+  - Konto klienta: login customer, hasło customer
+
+## 🔨 Poprawki od klienta
+
+- Dodać panel dodawania klientów
+
+- Dodać cenę do informacji o produkcie
+
+- Dodać login klienta do informacji o zamówieniu
+
+- Dodać możliwość przypisania wielu produktów do zamówienia
+
 ## 📖 Flow
 
 [Link](https://lucid.app/lucidspark/9edb294a-635a-41d1-b574-a82a1559929c/edit?viewport_loc=333%2C-783%2C6018%2C3267%2C0_0&invitationId=inv_845b640b-abf9-4535-a644-f04a434ad9c9)
 
+![image](./Docs/zdj1.png)
+![image](./Docs/zdj2.png)
+![image](./Docs/zdj3.png)
+
 ## 🗃️ Baza danych
 
 [Link](https://dbdesigner.page.link/CkG3XqCDGpQrNk6y7)
+
+- user - informacje o użytkownikach
+- product - informacje o produktach
+- order - informacje o zamówieniach
 
 ## 📊 Diagram UML
 
